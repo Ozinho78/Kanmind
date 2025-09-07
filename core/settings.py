@@ -11,15 +11,34 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+# Optional: .env laden, wenn vorhanden
+try:
+    from dotenv import load_dotenv
+    load_dotenv()  # sucht .env im Projekt-Root (dort wo manage.py liegt)
+except Exception:
+    pass
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-wycjw9=s1z=(q2h0jg1#z961cm)(d79o*@s_i0gwa(ye%6_3qc'
+SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME_FOR_LOCAL_ONLY")
 
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS=srv997572.hostinger.com kanmind.michael-fiebelkorn.de 31.97.44.33
-CSRF_TRUSTED_ORIGINS=https://kanmind.michael-fiebelkorn.de https://api.kanmind.michael-fiebelkorn.de
+def _env_list(name: str, default: str = "") -> list[str]:
+    """
+    Lies Liste aus ENV. Komma oder Leerzeichen getrennt sind ok.
+    Beispiel: "a,b c" -> ["a","b","c"]
+    """
+    raw = os.getenv(name, default)
+    parts = [p.strip() for p in raw.replace(",", " ").split()]
+    return [p for p in parts if p]
+
+ALLOWED_HOSTS = _env_list("ALLOWED_HOSTS")
+CSRF_TRUSTED_ORIGINS = _env_list("CSRF_TRUSTED_ORIGINS")
+# Nur wenn du CORS brauchst:
+CORS_ALLOWED_ORIGINS = _env_list("CORS_ALLOWED_ORIGINS")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,11 +72,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -100,10 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
