@@ -77,6 +77,17 @@ docs/_build/
 # PyBuilder
 target/
 
+# Secrets / lokale Konfiguration
+.env
+*.env
+
+# SQLite & Artefakte
+db.sqlite3
+*.sqlite3-journal
+
+# Staticfiles (von collectstatic erzeugt)
+staticfiles/
+
 
 ### Django ###
 *.log
@@ -88,3 +99,4 @@ local_settings.py
 .env
 db.sqlite3
 up.bat
+generate_dummy_data.py

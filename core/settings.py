@@ -18,8 +18,8 @@ SECRET_KEY = 'django-insecure-wycjw9=s1z=(q2h0jg1#z961cm)(d79o*@s_i0gwa(ye%6_3qc
 
 DEBUG = False
 
-ALLOWED_HOSTS=srv997572.hostinger.com <deine-domain> <deine-ip>
-CSRF_TRUSTED_ORIGINS=https://<deine-domain> https://api.<deine-domain>
+ALLOWED_HOSTS=srv997572.hostinger.com kanmind.michael-fiebelkorn.de 31.97.44.33
+CSRF_TRUSTED_ORIGINS=https://kanmind.michael-fiebelkorn.de https://api.kanmind.michael-fiebelkorn.de
 
 INSTALLED_APPS = [
     'django.contrib.admin',
